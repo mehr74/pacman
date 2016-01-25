@@ -2,8 +2,6 @@
 #define MAIN_H
 
 #include "cocos2d.h"
-#include "HelloWorldScene.h"
-#include "logic/objNames.h"
 using namespace std;
 
 

@@ -1,6 +1,18 @@
 #ifndef OBJNAMES_H
 #define OBJNAMES_H
 
+#define PLAYER_NORMAL_SPEED 10
+#define PLAYER_ACTIVE_SPEED 12
+#define GHOST_NORMAL_SPEED 11
+#define GHOST_ACTIVE_SPEED 13
+
+enum GGhost {
+    INKY_GHOST,
+    PINKY_GHOST,
+    CLYDE_GHOST,
+    BLINKY_GHOST
+};
+
 enum GTexture {
 	EBackground = 0,
 	ENone,
@@ -113,7 +125,7 @@ static char textureImage[ETextureLast][60] = {
 "silver_stars.png",
 "lock_gold_star.png",
 "lock.png",
- 
+
 "pacmanLeftOpen.png",
 "pacmanLeftClose.png",
 "pacmanRightOpen.png",
@@ -122,12 +134,12 @@ static char textureImage[ETextureLast][60] = {
 "pacmanDownOpen.png",
 "pacmanUpClose.png",
 "pacmanUpOpen.png",
- 
+
 "orbLeft.png",
 "orbRight.png",
 "orbUp.png",
 "orbDown.png",
- 
+
 "spiritDefenceWhite.png",
 "spiritDefence.png",
 
@@ -135,7 +147,7 @@ static char textureImage[ETextureLast][60] = {
 "clydeRight.png",
 "clydeDown.png",
 "clydeUp.png",
- 
+
 "blinkyLeft.png",
 "blinkyRight.png",
 "blinkyDown.png",
@@ -150,10 +162,9 @@ static char textureImage[ETextureLast][60] = {
 "pinkyRight.png",
 "pinkyDown.png",
 "pinkyUp.png",
- 
+
 "arrow_left.png",
 "arrow_right.png",
 };
-
 
 #endif // OBJNAMES_H
