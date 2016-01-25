@@ -1,20 +1,20 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef GAME_SCENE_H
+#define GAME_SCENE_H
 
 #include "cocos2d.h"
 using namespace std;
 
 
-class MainScene : public cocos2d::Layer
+class GameScene : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
     
-    CREATE_FUNC(MainScene);
+    CREATE_FUNC(GameScene);
 private :
 	cocos2d::Label* label;
 };
 
-#endif // MAIN_H
+#endif // GAME_SCENE_H

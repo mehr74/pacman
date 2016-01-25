@@ -4,11 +4,11 @@
 #include "logic/brick.h"
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* MainScene::createScene()
 {
     auto scene = Scene::create();
     
-    auto layer = HelloWorld::create();
+    auto layer = MainScene::create();
 
     scene->addChild(layer);
 
@@ -16,7 +16,7 @@ Scene* HelloWorld::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool MainScene::init()
 {
     if ( !Layer::init() )
     {
