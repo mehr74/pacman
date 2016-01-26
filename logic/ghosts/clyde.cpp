@@ -23,3 +23,22 @@ string Clyde::DeepToString() const
 {
 
 }
+
+void Clyde::animate()
+{
+    switch(this->getDirection())
+    {
+    case UP_DIR:
+        this->setTexture(EClydeUp);
+        break;
+    case DOWN_DIR:
+        this->setTexture(EClydeDown);
+        break;
+    case RIGHT_DIR:
+        this->setTexture(EClydeRight);
+        break;
+    case LEFT_DIR:
+        this->setTexture(EClydeLeft);
+        break;
+    }
+}

@@ -12,10 +12,10 @@ public:
     virtual string ToString() const = 0;
     virtual string DeepToString() const = 0;
 
-    void randomMove();
+    void randomMove(vector<Ghost*> ghosts);
 
 protected:
-
+    virtual void animate() = 0;
 
 private:
 

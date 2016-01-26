@@ -24,10 +24,10 @@ MovingObject::MovingObject(GPoint *pnt, GTexture texture, double normalSpeed, do
       myActiveSpeed(activeSpeed),
       mapOrigin(origin),
       myState(NORMAL_STATE),
-      myDirection(NOT_SET_DIR),
-      hasAction(false)
+      myDirection(NOT_SET_DIR)
 {
     setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
+    myPreviousPos = this->getPosition();
 }
 
 bool MovingObject::isActionDone() const
@@ -43,9 +43,7 @@ void MovingObject::setToNextPosition(int dirX, int dirY)
 
 void MovingObject::moveSprite(int dirX, int dirY)
 {
-    cout << "moving object speed: " <<  getSpeed();
     myAction = MoveBy::create(getSpeed(), Point(15*dirX, 15*dirY));
-    hasAction = true;
     mySprite->runAction(myAction);
 }
 
@@ -116,18 +114,74 @@ void MovingObject::setBricks(vector<Brick *> bricks, int maxWidth, int maxHeight
     mapMaxWidth = maxWidth;
 }
 
-vector<int> MovingObject::findPossibleDirections() const
+vector<int> MovingObject::findPossibleDirections(vector<MovingObject*>movingObjects)
 {
+    ghosts = movingObjects;
     vector<int> directions;
     for(int i = UP_DIR; i <= LEFT_DIR; i++)
     {
-        if(isDirectionAllowed(i) == true)
+        if(isDirectionAllowedForGhosts(i) == true)
             directions.push_back(i);
     }
     return directions;
 }
 
-bool MovingObject::isDirectionAllowed(int dir) const
+vector<int> MovingObject::findPossibleDirections() const
+{
+    vector<int> directions;
+    for(int i = UP_DIR; i <= LEFT_DIR; i++)
+    {
+        if(isDirectionAllowedForPlayer(i) == true)
+            directions.push_back(i);
+    }
+    return directions;
+}
+
+bool MovingObject::isDirectionAllowedForGhosts(int dir) const
+{
+    int xAxis = this->getPosition()->getX();
+    int yAxis = this->getPosition()->getY();
+    Brick* brick;
+    if(dir == UP_DIR)
+    {
+        if(yAxis == mapMaxHeight)
+            return false;
+        if(isGhostAt(xAxis, yAxis+1) == true)
+            return false;
+        brick = getBrickAt(xAxis, yAxis+1);
+    }
+    else if(dir == DOWN_DIR)
+    {
+        if(yAxis == 0)
+            return false;
+        if(isGhostAt(xAxis, yAxis-1) == true)
+            return false;
+        brick = getBrickAt(xAxis, yAxis-1);
+    }
+    else if(dir == LEFT_DIR)
+    {
+        if(xAxis == 0)
+            return false;
+        if(isGhostAt(xAxis-1, yAxis) == true)
+            return false;
+        brick = getBrickAt(xAxis-1, yAxis);
+    }
+    else if(dir == RIGHT_DIR)
+    {
+        if(xAxis == mapMaxWidth)
+            return false;
+        if(isGhostAt(xAxis+1, yAxis) == true)
+            return false;
+        brick = getBrickAt(xAxis+1, yAxis);
+    }
+
+    int texture = brick->getTexture();
+    if(texture <= EArc2Down && texture >= EHorizontal)
+        return AllowedDirections[texture-EHorizontal][dir];
+    return true;
+}
+
+bool MovingObject::isDirectionAllowedForPlayer(int dir) const
 {
     int xAxis = this->getPosition()->getX();
     int yAxis = this->getPosition()->getY();
@@ -156,6 +210,7 @@ bool MovingObject::isDirectionAllowed(int dir) const
             return false;
         brick = getBrickAt(xAxis+1, yAxis);
     }
+
     int texture = brick->getTexture();
     if(texture <= EArc2Down && texture >= EHorizontal)
         return AllowedDirections[texture-EHorizontal][dir];
@@ -170,4 +225,56 @@ int MovingObject::getDirection() const
 void MovingObject::setDirection(int dir)
 {
     myDirection = dir;
+}
+
+bool MovingObject::isGhostAt(int x, int y) const
+{
+    for(int i = 0; i < ghosts.size(); i++)
+    {
+        if(ghosts[i]->getPosition()->getX() == x &&
+           ghosts[i]->getPosition()->getY() == y)
+        {
+            return true;
+        }
+        if(ghosts[i]->getPreviousPosition()->getX() == x &&
+           ghosts[i]->getPreviousPosition()->getY() == y &&
+           ghosts[i] != this)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void MovingObject::setPosition(GPoint *pnt)
+{
+    myPreviousPos = this->getPosition();
+    WorldObject::setPosition(pnt);
+}
+
+GPoint* MovingObject::getPreviousPosition()
+{
+    return myPreviousPos;
+}
+
+int MovingObject::getInverseDirection() const
+{
+    switch(myDirection)
+    {
+    case UP_DIR:
+        return DOWN_DIR;
+    case DOWN_DIR:
+        return UP_DIR;
+    case LEFT_DIR:
+        return RIGHT_DIR;
+    case RIGHT_DIR:
+        return LEFT_DIR;
+    }
+    return NOT_SET_DIR;
+}
+
+void MovingObject::setTexture(GTexture texture)
+{
+    WorldObject::setTexture(texture);
+    this->setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
 }

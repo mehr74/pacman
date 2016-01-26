@@ -10,6 +10,11 @@ WorldObject::WorldObject(GPoint* pnt, GTexture texture, int width, int height)
     this->position = pnt;
 }
 
+void WorldObject::setTexture(GTexture texture)
+{
+    gTexture = texture;
+}
+
 GTexture WorldObject::getTexture() const
 {
     return gTexture;

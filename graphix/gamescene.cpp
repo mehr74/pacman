@@ -51,11 +51,33 @@ bool GameScene::init()
         this->addChild(ghostSprt);
     }
 
-//    auto player = gameMap.getPlayer();
-//    Sprite * tmpSprt = Sprite::create(textureImage[player->getTexture()]);
-//    tmpSprt->setPosition(player->getPosition()->getX() * 15 + widthGap/2,
-//                         player->getPosition()->getY() * 15 + heightGap/2);
-//    this->addChild(tmpSprt);
+    Player* player = gameMap->getPlayer();
+    Sprite *playerSprt = player->getSprite();
+    this->addChild(playerSprt);
+
+    auto eventListener = EventListenerKeyboard::create();
+
+    eventListener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event)
+    {
+        switch(keyCode){
+            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            case EventKeyboard::KeyCode::KEY_A:
+                cout << "keyboard left arrow" << endl;
+                break;
+            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            case EventKeyboard::KeyCode::KEY_D:
+                cout << "keyboard right arrow" << endl;
+                break;
+            case EventKeyboard::KeyCode::KEY_UP_ARROW:
+            case EventKeyboard::KeyCode::KEY_W:
+                cout << "keyboard up arrow" << endl;
+                break;
+            case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+            case EventKeyboard::KeyCode::KEY_S:
+                cout << "keyboard down arrow" << endl;
+                break;
+        }
+    };
 
     this->schedule(schedule_selector(GameScene::update), UPDATE_TIME);
 
@@ -66,7 +88,7 @@ void GameScene::update(float delta)
 {
     for (auto ghost: gameMap->getGhosts())
     {
-        ghost->randomMove();
+        ghost->randomMove(gameMap->getGhosts());
     }
 }
 

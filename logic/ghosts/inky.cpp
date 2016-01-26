@@ -23,3 +23,22 @@ string Inky::DeepToString() const
 {
 
 }
+
+void Inky::animate()
+{
+    switch(this->getDirection())
+    {
+    case UP_DIR:
+        this->setTexture(EInkyUp);
+        break;
+    case DOWN_DIR:
+        this->setTexture(EInkyDown);
+        break;
+    case RIGHT_DIR:
+        this->setTexture(EInkyRight);
+        break;
+    case LEFT_DIR:
+        this->setTexture(EInkyLeft);
+        break;
+    }
+}

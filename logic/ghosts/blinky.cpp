@@ -23,3 +23,22 @@ string Blinky::DeepToString() const
 {
 
 }
+
+void Blinky::animate()
+{
+    switch(this->getDirection())
+    {
+    case UP_DIR:
+        this->setTexture(EBlinkyUp);
+        break;
+    case DOWN_DIR:
+        this->setTexture(EBlinkyDown);
+        break;
+    case RIGHT_DIR:
+        this->setTexture(EBlinkyRight);
+        break;
+    case LEFT_DIR:
+        this->setTexture(EBlinkyLeft);
+        break;
+    }
+}

@@ -13,8 +13,10 @@ class WorldObject
     public:
         WorldObject(GPoint* pnt, GTexture texture, int width = 30, int height = 30);
 
+        void setTexture(GTexture texture);
         GTexture getTexture() const;
         GPoint* getPosition() const;
+
 
         void setPosition(GPoint* pnt);
 

@@ -11,6 +11,7 @@ public:
     virtual string ToString() const;
     virtual string DeepToString() const;
 
+    void playerMove(int direction);
 };
 
 

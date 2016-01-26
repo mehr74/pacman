@@ -11,6 +11,7 @@ public:
     virtual string DeepToString() const;
 
 private:
+    virtual void animate();
 
 };
 

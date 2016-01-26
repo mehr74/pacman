@@ -26,3 +26,8 @@ string Player::DeepToString() const
     out << std::left << setw(24) << *this;
     return out.str();
 }
+
+void Player::playerMove(int direction)
+{
+
+}

@@ -151,6 +151,10 @@ void GameMap::initializeMap(string fileName)
             case 16:
                 bricks.push_back(new Brick(new GPoint(x, y), EBonus));
                 break;
+            case 85:
+                bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                player = new Player(new GPoint(x, y), mapOrigin);
+                break;
             case 90:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
                 ghosts.push_back(new Blinky(new GPoint(x, y), mapOrigin));
@@ -169,10 +173,10 @@ void GameMap::initializeMap(string fileName)
                 break;
             case 99:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                player = new Player(new GPoint(x, y), mapOrigin);
                 break;
             default:
                 bricks.push_back(new Brick(new GPoint(x, y), EBackground));
+
                 break;
         }
 

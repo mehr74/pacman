@@ -10,6 +10,9 @@ public:
     virtual string ToString() const;
     virtual string DeepToString() const;
 
+
+    virtual void animate();
+
 private:
 
 };

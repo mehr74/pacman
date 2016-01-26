@@ -23,3 +23,22 @@ string Pinky::DeepToString() const
 {
 
 }
+
+void Pinky::animate()
+{
+    switch(this->getDirection())
+    {
+    case UP_DIR:
+        this->setTexture(EPinkyUp);
+        break;
+    case DOWN_DIR:
+        this->setTexture(EPinkyDown);
+        break;
+    case RIGHT_DIR:
+        this->setTexture(EPinkyRight);
+        break;
+    case LEFT_DIR:
+        this->setTexture(EPinkyLeft);
+        break;
+    }
+}

@@ -21,22 +21,33 @@ public:
     void setSprite(Sprite *sprite);
     Sprite* getSprite() const;
 
+    void setPosition(GPoint* pnt);
+    GPoint* getPreviousPosition();
+
     void setBricks(vector<Brick*> bricks, int maxWidth, int maxHeight);
 
 protected:
     bool isActionDone() const;
+    vector<int> findPossibleDirections(vector<MovingObject*> movingObjects);
     vector<int> findPossibleDirections() const;
 
     int getDirection() const;
     void setDirection(int dir);
 
+    int getInverseDirection() const;
+
+    void setTexture(GTexture texture);
+
 private:
     vector<Brick*>getBricks() const;
+    bool isGhostAt(int x, int y) const;
     Brick* getBrickAt(int x, int y) const;
     void setToNextPosition(int dirX, int dirY);
     void moveSprite(int dirX, int dirY);
-    bool isDirectionAllowed(int dir) const;
+    bool isDirectionAllowedForGhosts(int dir) const;
+    bool isDirectionAllowedForPlayer(int dir) const;
     vector<Brick*> mapBricks;
+    vector<MovingObject*>ghosts;
     GPoint *mapOrigin;
     int mapMaxWidth;
     int mapMaxHeight;
@@ -45,8 +56,8 @@ private:
     int myDirection;
     GState myState;
     Sprite* mySprite;
+    GPoint* myPreviousPos;
     CCFiniteTimeAction* myAction;
-    bool hasAction;
 };
 
 
