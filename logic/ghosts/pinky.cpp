@@ -4,8 +4,8 @@
 #include <sstream>
 using namespace std;
 
-Pinky::Pinky(GPoint *pos)
-    : Ghost(pos, EPinkyDown)
+Pinky::Pinky(GPoint *pos, GPoint* origin)
+    : Ghost(pos, EPinkyDown, origin)
 {
 
 }

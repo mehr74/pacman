@@ -25,6 +25,7 @@ protected:
 
 private:
     void setToNextPosition(int speedX, int speedY);
+    GPoint *mapOrigin;
     int myNormalSpeed;
     int myActiveSpeed;
     GDirection myDirection;

@@ -13,8 +13,8 @@
 USING_NS_CC;
 using namespace std;
 
-GameMap::GameMap(string fileName, GPoint *origin)
-    : mapOrigin(origin)
+GameMap::GameMap(string fileName, int windowWidth, int windowHeight)
+    : winWidth(windowWidth), winHeight(windowHeight)
 {
     log("Initializing map :");
     initializeMap(fileName);
@@ -86,6 +86,10 @@ void GameMap::initializeMap(string fileName)
 	fileBuffer << fileContents;
 
     fileBuffer >> maxWidth;
+    fileBuffer >> maxHeight;
+
+    mapOrigin = new GPoint( (winWidth - this->getMaxWidth()*15)/2,
+                            (winHeight - this->getMaxHeight()*15)/2 );
 
     cout << setfill('*') <<setw(60) << "" << endl;
     cout << setfill(' ') << std::left << setw(59) << "* Initializing map " << "*" << endl;
@@ -149,23 +153,23 @@ void GameMap::initializeMap(string fileName)
                 break;
             case 90:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                ghosts.push_back(new Blinky(new GPoint(x, y)));
+                ghosts.push_back(new Blinky(new GPoint(x, y), mapOrigin));
                 break;
             case 91:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                ghosts.push_back(new Pinky(new GPoint(x, y)));
+                ghosts.push_back(new Pinky(new GPoint(x, y), mapOrigin));
                 break;
             case 92:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                ghosts.push_back(new Clyde(new GPoint(x, y)));
+                ghosts.push_back(new Clyde(new GPoint(x, y), mapOrigin));
                 break;
             case 93:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                ghosts.push_back(new Inky(new GPoint(x, y)));
+                ghosts.push_back(new Inky(new GPoint(x, y), mapOrigin));
                 break;
             case 99:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
-                player = new Player(new GPoint(x, y));
+                player = new Player(new GPoint(x, y), mapOrigin);
                 break;
             default:
                 bricks.push_back(new Brick(new GPoint(x, y), EBackground));
@@ -189,6 +193,4 @@ void GameMap::initializeMap(string fileName)
     cout << "* NEW " << setw(53) << *player  << "*" << endl;
     cout << "*" << setw(58) << "" << "*" << endl;
     cout << setfill('*') <<setw(60) << "" << endl;
-
-    maxHeight = y;
 }

@@ -3,7 +3,8 @@
 MovingObject::MovingObject(GPoint *pnt, GTexture texture, double normalSpeed, double activeSpeed, GPoint* origin)
     : WorldObject(pnt, texture),
       myNormalSpeed(normalSpeed),
-      myActiveSpeed(activeSpeed)
+      myActiveSpeed(activeSpeed),
+      mapOrigin(origin)
 {
     setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
 }
@@ -51,7 +52,8 @@ int MovingObject::getSpeed()
 void MovingObject::setSprite(Sprite *sprite)
 {
     mySprite = sprite;
-    mySprite->setPosition(this->getPosition()->getX() * 15, this->getPosition()->getY() * 15);
+    mySprite->setPosition(this->getPosition()->getX() * 15 + mapOrigin->getX()
+                          , this->getPosition()->getY() * 15  + mapOrigin->getY() );
 }
 
 Sprite* MovingObject::getSprite() const

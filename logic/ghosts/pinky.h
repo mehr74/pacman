@@ -5,7 +5,7 @@
 class Pinky : public Ghost
 {
 public:
-    Pinky(GPoint *pos);
+    Pinky(GPoint *pos, GPoint* origin = new GPoint(0, 0));
 
     virtual string ToString() const;
     virtual string DeepToString() const;

@@ -4,8 +4,8 @@
 #include <sstream>
 using namespace std;
 
-Blinky::Blinky(GPoint *pnt)
-    : Ghost(pnt, EBlinkyLeft)
+Blinky::Blinky(GPoint *pnt, GPoint *origin)
+    : Ghost(pnt, EBlinkyLeft, origin)
 {
 
 }

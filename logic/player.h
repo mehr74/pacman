@@ -6,7 +6,7 @@
 class Player : public MovingObject
 {
 public:
-    Player(GPoint* pnt);
+    Player(GPoint* pnt, GPoint* = new GPoint(0, 0));
 
     virtual string ToString() const;
     virtual string DeepToString() const;

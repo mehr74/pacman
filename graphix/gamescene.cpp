@@ -32,7 +32,7 @@ bool GameScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
 
-    gameMap = new GameMap("lvl_02.txt");
+    gameMap = new GameMap("lvl_02.txt", visibleSize.width, visibleSize.height);
     widthGap = visibleSize.width - gameMap->getMaxWidth()*15;
     heightGap = visibleSize.height - gameMap->getMaxHeight()*15;
 

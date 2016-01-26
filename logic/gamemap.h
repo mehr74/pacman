@@ -16,7 +16,7 @@ class Clyde;
 class GameMap
 {
     public:
-        GameMap(std::string mapFile, GPoint* origin = new GPoint(0, 0));
+        GameMap(std::string mapFile, int winWidth, int winHeight);
 
 
         vector<Brick*> getBricks() const;
@@ -40,6 +40,8 @@ class GameMap
         Player* player;
         int maxWidth;
         int maxHeight;
+        int winWidth;
+        int winHeight;
 };
 
 #endif // GAMEMAP_H

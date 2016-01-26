@@ -4,8 +4,8 @@
 #include <sstream>
 using namespace std;
 
-Clyde::Clyde(GPoint *pnt)
-    : Ghost(pnt, EClydeDown)
+Clyde::Clyde(GPoint *pnt, GPoint* origin)
+    : Ghost(pnt, EClydeDown, origin)
 {
 
 }

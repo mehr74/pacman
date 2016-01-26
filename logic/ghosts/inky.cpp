@@ -4,8 +4,8 @@
 #include <sstream>
 using namespace std;
 
-Inky::Inky(GPoint *pos)
-    : Ghost(pos, EInkyDown)
+Inky::Inky(GPoint *pos, GPoint* origin)
+    : Ghost(pos, EInkyDown, origin)
 {
 
 }

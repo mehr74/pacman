@@ -5,7 +5,7 @@
 class Blinky : public Ghost
 {
 public:
-    Blinky(GPoint* pnt);
+    Blinky(GPoint* pnt, GPoint* origin = new GPoint(0, 0));
 
     virtual string ToString() const;
     virtual string DeepToString() const;

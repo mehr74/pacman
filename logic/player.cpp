@@ -5,8 +5,8 @@
 #include "definitions.h"
 using namespace std;
 
-Player::Player(GPoint *pnt)
-    : MovingObject(pnt, EPacmanLeftOpen, PLAYER_NORMAL_SPEED, PLAYER_ACTIVE_SPEED)
+Player::Player(GPoint *pnt, GPoint *origin)
+    : MovingObject(pnt, EPacmanLeftOpen, PLAYER_NORMAL_SPEED, PLAYER_ACTIVE_SPEED, origin)
 {
 
 }
