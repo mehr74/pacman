@@ -10,9 +10,10 @@ public:
 
     virtual bool init();
     
-    CREATE_FUNC(GameOverScene);
+    CREATE_FUNC(GameOverScene)
+
 private :
-	cocos2d::Label* label;
+
 };
 
 #endif // GAMEOVER_SCENE_H

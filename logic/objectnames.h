@@ -1,16 +1,24 @@
 #ifndef OBJNAMES_H
 #define OBJNAMES_H
 
-#define PLAYER_NORMAL_SPEED 10
-#define PLAYER_ACTIVE_SPEED 12
-#define GHOST_NORMAL_SPEED 11
-#define GHOST_ACTIVE_SPEED 13
-
 enum GGhost {
     INKY_GHOST,
     PINKY_GHOST,
     CLYDE_GHOST,
     BLINKY_GHOST
+};
+
+enum GState {
+    DEAD_STATE,
+    NORMAL_STATE,
+    ACTIVE_STATE
+};
+
+enum GDirection {
+    UP_DIR,
+    DOWN_DIR,
+    RIGHT_DIR,
+    LEFT_DIR
 };
 
 enum GTexture {
@@ -91,80 +99,11 @@ enum GTexture {
 	ETextureLast,
 };
 
-static char textureImage[ETextureLast][60] = {
-"background.png",
-"none.png",
-"point.png",
-"bonus.png",
-
-"banana.png",
-"apple.png",
-"apple_red.png",
-"vinograd.png",
-"orange.png",
-"cocos.png",
-
-"horizontal.png",
-"vertical.png",
-"angle_ld.png",
-"angle_rd.png",
-"angle_rv.png",
-"angle_lv.png",
-"arc_up.png",
-"arc_left.png",
-"arc_right.png",
-"arc_down.png",
-"arc2_up.png",
-"arc2_right.png",
-"arc2_left.png",
-"arc2_down.png",
-
-"three_gold_star.png",
-"two_gold_star.png",
-"one_gold_star.png",
-"silver_stars.png",
-"lock_gold_star.png",
-"lock.png",
-
-"pacmanLeftOpen.png",
-"pacmanLeftClose.png",
-"pacmanRightOpen.png",
-"pacmanRightClose.png",
-"pacmanDownClose.png",
-"pacmanDownOpen.png",
-"pacmanUpClose.png",
-"pacmanUpOpen.png",
-
-"orbLeft.png",
-"orbRight.png",
-"orbUp.png",
-"orbDown.png",
-
-"spiritDefenceWhite.png",
-"spiritDefence.png",
-
-"clydeLeft.png",
-"clydeRight.png",
-"clydeDown.png",
-"clydeUp.png",
-
-"blinkyLeft.png",
-"blinkyRight.png",
-"blinkyDown.png",
-"blinkyUp.png",
-
-"inkyLeft.png",
-"inkyRight.png",
-"inkyDown.png",
-"inkyUp.png",
-
-"pinkyLeft.png",
-"pinkyRight.png",
-"pinkyDown.png",
-"pinkyUp.png",
-
-"arrow_left.png",
-"arrow_right.png",
+class ObjectNames
+{
+public:
+    static char* getTextureImage(GTexture);
+    static char* getTextureName(GTexture);
 };
 
 #endif // OBJNAMES_H

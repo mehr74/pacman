@@ -3,10 +3,10 @@
 
 #include "cocos2d.h"
 #include "logic/objectnames.h"
+#include "gpoint.h"
 using namespace std;
 
 class Brick;
-class GPoint;
 class Ghost;
 class Player;
 class Inky;
@@ -16,8 +16,12 @@ class Clyde;
 class GameMap
 {
     public:
-        GameMap(std::string mapFile);
+        GameMap(std::string mapFile, GPoint* origin = new GPoint(0, 0));
+
+
         vector<Brick*> getBricks() const;
+        vector<Ghost*> getGhosts() const;
+        Player* getPlayer() const;
         int getMaxWidth() const;
         int getMaxHeight() const;
 
@@ -29,11 +33,10 @@ class GameMap
 
     private:
         void initializeMap(std::string mapFile);
+        GPoint* mapOrigin;
         vector<Brick*> bricks;
-        Inky* inky;
-        Pinky* pinky;
-        Blinky* blinky;
-        Clyde* clyde;
+        vector<Ghost*> ghosts;
+        vector<GGhost> ghostTypes;
         Player* player;
         int maxWidth;
         int maxHeight;

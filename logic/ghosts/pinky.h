@@ -9,6 +9,7 @@ public:
 
     virtual string ToString() const;
     virtual string DeepToString() const;
+
 private:
 
 };

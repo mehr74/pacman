@@ -10,9 +10,11 @@ public:
 
     virtual bool init();
     
-    CREATE_FUNC(MainMenuScene);
-private :
-	cocos2d::Label* label;
+    CREATE_FUNC(MainMenuScene)
+
+private:
+    void GoToGameScene(cocos2d::Ref *sender);
+    void test();
 };
 
 #endif // MAINMENU_SCENE_H

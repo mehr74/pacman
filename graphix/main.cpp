@@ -1,7 +1,6 @@
 #include "main.h"
-#include "logic/gamemap.h"
-#include "logic/objectnames.h"
-#include "logic/brick.h"
+#include "graphix/mainmenuscene.h"
+#include "definitions.h"
 USING_NS_CC;
 
 Scene* MainScene::createScene()
@@ -22,24 +21,35 @@ bool MainScene::init()
     {
         return false;
     }
-    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    GameMap gameMap("lvl_01.txt");
-    int maxWidth = gameMap.getMaxWidth() * 30;
-    double scaleSize =  visibleSize.width / maxWidth;
-    int scaleWidth = scaleSize * 30;
-    log("\nWindows size : (%lf, %lf)", visibleSize.width, visibleSize.height);
-    log("Map print size : (%d, %d)", gameMap.getMaxWidth() * 30, gameMap.getMaxHeight() * 30);
-    log("Scale size : %lf", scaleSize);
-    
-    for (auto brick: gameMap.getBricks())
-    {
-        Sprite * tmpSprt = Sprite::create(textureImage[brick->getTexture()]);
-        tmpSprt->setScale(scaleSize);
-        tmpSprt->setPosition(brick->getPosition()->getX() * scaleWidth + scaleWidth / 2, brick->getPosition()->getY() * scaleWidth + scaleWidth / 2);
-        this->addChild(tmpSprt);
-    }
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+      Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    this->schedule(schedule_selector(MainScene::GoToMainMenuScene), DISPLAY_TIME_SPLASH_SCENE);
+
+    // Pacman header
+    TTFConfig ttfConfig("fonts/PacFont.ttf", 72);
+    auto headerLabel = Label::createWithTTF(ttfConfig, "pacman", TextHAlignment::CENTER,100);
+    headerLabel->setPosition(visibleSize.width / 2 + origin.x,
+                             3*visibleSize.height / 4 + origin.y);
+    this->addChild(headerLabel);
+
+    // programmer : Mehrshad Lotfi
+    TTFConfig ttfConfig2("fonts/emulogic.ttf", 28);
+    auto nameLabel = Label::createWithTTF(ttfConfig2, "Mehrshad Lotfi", TextHAlignment::CENTER,100);
+    nameLabel->setPosition(visibleSize.width / 2 + origin.x,
+                           2*visibleSize.height / 5 + origin.y);
+    this->addChild(nameLabel);
+
+
 
     return true;
+}
+
+void MainScene::GoToMainMenuScene(float dt)
+{
+    auto scene = MainMenuScene::createScene();
+
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }
 

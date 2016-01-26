@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "logic/gamemap.h"
 #include "logic/brick.h"
 #include "logic/gpoint.h"
@@ -12,7 +13,8 @@
 USING_NS_CC;
 using namespace std;
 
-GameMap::GameMap(string fileName)
+GameMap::GameMap(string fileName, GPoint *origin)
+    : mapOrigin(origin)
 {
     log("Initializing map :");
     initializeMap(fileName);
@@ -21,6 +23,16 @@ GameMap::GameMap(string fileName)
 vector<Brick*> GameMap::getBricks() const
 {
     return bricks;
+}
+
+vector<Ghost*> GameMap::getGhosts() const
+{
+    return ghosts;
+}
+
+Player* GameMap::getPlayer() const
+{
+    return player;
 }
 
 int GameMap::getMaxWidth() const
@@ -45,39 +57,22 @@ void GameMap::setPlayerPos(GPoint* pos)
 
 GPoint* GameMap::getGhostPos(GGhost ghost) const
 {
-    switch(ghost)
+    for(int i = 0; i < ghostTypes.size(); i++)
     {
-    case INKY_GHOST:
-            return inky->getPosition();
-        break;
-    case BLINKY_GHOST:
-            return blinky->getPosition();
-        break;
-    case CLYDE_GHOST:
-            return clyde->getPosition();
-        break;
-    case PINKY_GHOST:
-            return pinky->getPosition();
-        break;
+        if(ghostTypes[i] == ghost)
+            return ghosts[i]->getPosition();
     }
 }
 
 void GameMap::setGhostPos(GGhost ghost, GPoint* pos) const
 {
-    switch(ghost)
+    for(int i = 0; i < ghostTypes.size(); i++)
     {
-    case INKY_GHOST:
-            inky->setPosition(pos);
-        break;
-    case BLINKY_GHOST:
-            blinky->setPosition(pos);
-        break;
-    case CLYDE_GHOST:
-            clyde->setPosition(pos);
-        break;
-    case PINKY_GHOST:
-            pinky->setPosition(pos);
-        break;
+        if(ghostTypes[i] == ghost)
+        {
+            ghosts[i]->setPosition(pos);
+            return;
+        }
     }
 }
 
@@ -92,6 +87,9 @@ void GameMap::initializeMap(string fileName)
 
     fileBuffer >> maxWidth;
 
+    cout << setfill('*') <<setw(60) << "" << endl;
+    cout << setfill(' ') << std::left << setw(59) << "* Initializing map " << "*" << endl;
+    cout << "*" << setw(58) << "" << "*" << endl;
 
     int number;
     int x = 0;
@@ -151,23 +149,30 @@ void GameMap::initializeMap(string fileName)
                 break;
             case 90:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                ghosts.push_back(new Blinky(new GPoint(x, y)));
                 break;
             case 91:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                ghosts.push_back(new Pinky(new GPoint(x, y)));
                 break;
             case 92:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                ghosts.push_back(new Clyde(new GPoint(x, y)));
                 break;
             case 93:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                ghosts.push_back(new Inky(new GPoint(x, y)));
                 break;
             case 99:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                player = new Player(new GPoint(x, y));
                 break;
             default:
                 bricks.push_back(new Brick(new GPoint(x, y), EBackground));
                 break;
         }
+
+        cout << "* NEW " << setw(53) << bricks.back()->DeepToString() << "*" << endl;
         
         x++;
         if(x == maxWidth)
@@ -176,6 +181,14 @@ void GameMap::initializeMap(string fileName)
             y++;
         }
     }
+
+    for(int i = 0; i < ghosts.size(); i++)
+    {
+        cout << "* NEW " << setw(53) << *ghosts[i] << "*" << endl;
+    }
+    cout << "* NEW " << setw(53) << *player  << "*" << endl;
+    cout << "*" << setw(58) << "" << "*" << endl;
+    cout << setfill('*') <<setw(60) << "" << endl;
 
     maxHeight = y;
 }

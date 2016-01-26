@@ -13,7 +13,6 @@ Scene* GameOverScene::createScene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool GameOverScene
 ::init()
 {

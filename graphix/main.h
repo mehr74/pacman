@@ -12,9 +12,10 @@ public:
 
     virtual bool init();
     
-    CREATE_FUNC(MainScene);
+    CREATE_FUNC(MainScene)
+
 private :
-	cocos2d::Label* label;
+    void GoToMainMenuScene(float dt);
 };
 
 #endif // MAIN_H

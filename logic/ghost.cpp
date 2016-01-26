@@ -1,3 +1,4 @@
+#include "definitions.h"
 #include "ghost.h"
 
 
