@@ -29,5 +29,19 @@ string Player::DeepToString() const
 
 void Player::playerMove(int direction)
 {
+    vector<int> possibleDirection = this->findPossibleDirections();
+    bool isDirectionAllowed = false;
+    for(int i = 0; i < possibleDirection.size(); i++)
+    {
+        if(possibleDirection[i] == direction)
+        {
+            isDirectionAllowed = true;
+        }
+    }
+    if(!isDirectionAllowed)
+        return;
+
+    this->setDirection(direction);
+    this->Move();
 
 }

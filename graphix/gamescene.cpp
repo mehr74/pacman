@@ -55,29 +55,9 @@ bool GameScene::init()
     Sprite *playerSprt = player->getSprite();
     this->addChild(playerSprt);
 
-    auto eventListener = EventListenerKeyboard::create();
-
-    eventListener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event)
-    {
-        switch(keyCode){
-            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-            case EventKeyboard::KeyCode::KEY_A:
-                cout << "keyboard left arrow" << endl;
-                break;
-            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-            case EventKeyboard::KeyCode::KEY_D:
-                cout << "keyboard right arrow" << endl;
-                break;
-            case EventKeyboard::KeyCode::KEY_UP_ARROW:
-            case EventKeyboard::KeyCode::KEY_W:
-                cout << "keyboard up arrow" << endl;
-                break;
-            case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-            case EventKeyboard::KeyCode::KEY_S:
-                cout << "keyboard down arrow" << endl;
-                break;
-        }
-    };
+    auto listener = EventListenerKeyboard::create();
+    listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     this->schedule(schedule_selector(GameScene::update), UPDATE_TIME);
 
@@ -90,5 +70,34 @@ void GameScene::update(float delta)
     {
         ghost->randomMove(gameMap->getGhosts());
     }
+}
+
+void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+    log("Key with keycode %d pressed", keyCode);
+    switch(keyCode)
+    {
+        case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+        case EventKeyboard::KeyCode::KEY_A:
+            cout << "keyboard left arrow" << endl;
+            gameMap->getPlayer()->playerMove(LEFT_DIR);
+            break;
+        case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+        case EventKeyboard::KeyCode::KEY_D:
+            cout << "keyboard right arrow" << endl;
+            gameMap->getPlayer()->playerMove(RIGHT_DIR);
+            break;
+        case EventKeyboard::KeyCode::KEY_UP_ARROW:
+        case EventKeyboard::KeyCode::KEY_W:
+            cout << "keyboard up arrow" << endl;
+            gameMap->getPlayer()->playerMove(UP_DIR);
+            break;
+        case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+        case EventKeyboard::KeyCode::KEY_S:
+            cout << "keyboard down arrow" << endl;
+            gameMap->getPlayer()->playerMove(DOWN_DIR);
+            break;
+    }
+
 }
 

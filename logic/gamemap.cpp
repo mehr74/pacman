@@ -195,6 +195,7 @@ void GameMap::initializeMap(string fileName)
         ghosts[i]->setBricks(getBricks(), maxWidth, maxHeight);
         cout << "* NEW " << setw(53) << *ghosts[i] << "*" << endl;
     }
+    player->setBricks(getBricks(), maxWidth, maxHeight);
     cout << "* NEW " << setw(53) << *player  << "*" << endl;
     cout << "*" << setw(58) << "" << "*" << endl;
     cout << setfill('*') <<setw(60) << "" << endl;
