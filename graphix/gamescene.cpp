@@ -64,6 +64,9 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
-
+    for (auto ghost: gameMap->getGhosts())
+    {
+        ghost->randomMove();
+    }
 }
 

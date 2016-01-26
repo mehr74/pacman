@@ -12,6 +12,8 @@ public:
     virtual string ToString() const = 0;
     virtual string DeepToString() const = 0;
 
+    void randomMove();
+
 protected:
 
 

@@ -2,6 +2,7 @@
 #define MOVING_OBJECT_H
 
 #include "logic/worldobject.h"
+#include "logic/brick.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -20,17 +21,32 @@ public:
     void setSprite(Sprite *sprite);
     Sprite* getSprite() const;
 
-protected:
+    void setBricks(vector<Brick*> bricks, int maxWidth, int maxHeight);
 
+protected:
+    bool isActionDone() const;
+    vector<int> findPossibleDirections() const;
+
+    int getDirection() const;
+    void setDirection(int dir);
 
 private:
-    void setToNextPosition(int speedX, int speedY);
+    vector<Brick*>getBricks() const;
+    Brick* getBrickAt(int x, int y) const;
+    void setToNextPosition(int dirX, int dirY);
+    void moveSprite(int dirX, int dirY);
+    bool isDirectionAllowed(int dir) const;
+    vector<Brick*> mapBricks;
     GPoint *mapOrigin;
+    int mapMaxWidth;
+    int mapMaxHeight;
     int myNormalSpeed;
     int myActiveSpeed;
-    GDirection myDirection;
+    int myDirection;
     GState myState;
     Sprite* mySprite;
+    CCFiniteTimeAction* myAction;
+    bool hasAction;
 };
 
 

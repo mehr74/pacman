@@ -18,7 +18,8 @@ enum GDirection {
     UP_DIR,
     DOWN_DIR,
     RIGHT_DIR,
-    LEFT_DIR
+    LEFT_DIR,
+    NOT_SET_DIR
 };
 
 enum GTexture {
@@ -47,7 +48,7 @@ enum GTexture {
 	EArc2Up,
 	EArc2Right,
 	EArc2Left,
-	EArc2Down,
+    EArc2Down,
 
 	EThreeGoldStar,
 	ETwoGoldStar,

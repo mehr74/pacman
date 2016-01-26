@@ -1,18 +1,52 @@
 #include "movingobject.h"
 
+bool AllowedDirections[14][4]
+{
+    {false, false, true, true},     // EHorizontal
+    {true, true, false , false},    // EVertical
+    {false, true, false, true},     // EAngleLd
+    {false, true, true, false},     // EAngleRd
+    {true, false, true, false},     // EAngleRv
+    {true, false, false, true},     // EAngleLv
+    {true, false, false, false},    // EArcUp
+    {false, false, false, true},    // EArcLeft
+    {false, false, true, false},    // EArcRight
+    {false, true, false, false},    // EArcDown
+    {false, true, true, true},      // EArc2Up
+    {true, true, false, true},      // EArc2Right
+    {true, true, true, false},      // EArc2Left
+    {true, false, true, true}       // EArc2Down
+};
+
 MovingObject::MovingObject(GPoint *pnt, GTexture texture, double normalSpeed, double activeSpeed, GPoint* origin)
     : WorldObject(pnt, texture),
       myNormalSpeed(normalSpeed),
       myActiveSpeed(activeSpeed),
-      mapOrigin(origin)
+      mapOrigin(origin),
+      myState(NORMAL_STATE),
+      myDirection(NOT_SET_DIR),
+      hasAction(false)
 {
     setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
 }
 
-void MovingObject::setToNextPosition(int speedX, int speedY)
+bool MovingObject::isActionDone() const
+{
+    return true;
+}
+
+void MovingObject::setToNextPosition(int dirX, int dirY)
 {
     GPoint* prevPos = this->getPosition();
-    this->setPosition(new GPoint(prevPos->getX() + speedX, prevPos->getY() + speedY));
+    this->setPosition(new GPoint(prevPos->getX() + 1*dirX, prevPos->getY() + 1*dirY));
+}
+
+void MovingObject::moveSprite(int dirX, int dirY)
+{
+    cout << "moving object speed: " <<  getSpeed();
+    myAction = MoveBy::create(getSpeed(), Point(15*dirX, 15*dirY));
+    hasAction = true;
+    mySprite->runAction(myAction);
 }
 
 void MovingObject::Move()
@@ -20,19 +54,22 @@ void MovingObject::Move()
     switch(myDirection)
     {
     case RIGHT_DIR:
-        setToNextPosition(getSpeed(), 0);
+        setToNextPosition(1, 0);
+        moveSprite(1, 0);
         break;
     case LEFT_DIR:
-        setToNextPosition((-1)*getSpeed(), 0);
+        setToNextPosition(-1, 0);
+        moveSprite(-1, 0);
         break;
     case UP_DIR:
-            setToNextPosition(0, getSpeed());
+        setToNextPosition(0, 1);
+        moveSprite(0, 1);
         break;
     case DOWN_DIR:
-            setToNextPosition(0, (-1)*getSpeed());
+        setToNextPosition(0, -1);
+        moveSprite(0, -1);
         break;
     }
-
 }
 
 int MovingObject::getSpeed()
@@ -59,4 +96,78 @@ void MovingObject::setSprite(Sprite *sprite)
 Sprite* MovingObject::getSprite() const
 {
     return mySprite;
+}
+
+
+vector<Brick*> MovingObject::getBricks() const
+{
+    return mapBricks;
+}
+
+Brick* MovingObject::getBrickAt(int x, int y) const
+{
+    return mapBricks[x + y*mapMaxWidth];
+}
+
+void MovingObject::setBricks(vector<Brick *> bricks, int maxWidth, int maxHeight)
+{
+    mapBricks = bricks;
+    mapMaxHeight = maxHeight;
+    mapMaxWidth = maxWidth;
+}
+
+vector<int> MovingObject::findPossibleDirections() const
+{
+    vector<int> directions;
+    for(int i = UP_DIR; i <= LEFT_DIR; i++)
+    {
+        if(isDirectionAllowed(i) == true)
+            directions.push_back(i);
+    }
+    return directions;
+}
+
+bool MovingObject::isDirectionAllowed(int dir) const
+{
+    int xAxis = this->getPosition()->getX();
+    int yAxis = this->getPosition()->getY();
+    Brick* brick;
+    if(dir == UP_DIR)
+    {
+        if(yAxis == mapMaxHeight)
+            return false;
+        brick = getBrickAt(xAxis, yAxis+1);
+    }
+    else if(dir == DOWN_DIR)
+    {
+        if(yAxis == 0)
+            return false;
+        brick = getBrickAt(xAxis, yAxis-1);
+    }
+    else if(dir == LEFT_DIR)
+    {
+        if(xAxis == 0)
+            return false;
+        brick = getBrickAt(xAxis-1, yAxis);
+    }
+    else if(dir == RIGHT_DIR)
+    {
+        if(xAxis == mapMaxWidth)
+            return false;
+        brick = getBrickAt(xAxis+1, yAxis);
+    }
+    int texture = brick->getTexture();
+    if(texture <= EArc2Down && texture >= EHorizontal)
+        return AllowedDirections[texture-EHorizontal][dir];
+    return true;
+}
+
+int MovingObject::getDirection() const
+{
+    return myDirection;
+}
+
+void MovingObject::setDirection(int dir)
+{
+    myDirection = dir;
 }
