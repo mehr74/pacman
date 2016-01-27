@@ -21,7 +21,13 @@ string Pinky::ToString() const
 
 string Pinky::DeepToString() const
 {
-
+    ostringstream out;
+    out << setfill('*') << setw(60) << "" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << *this << "*" << endl;
+    out << "* Direction : " << setw(45) << ObjectNames::getDirectionName(this->getDirection()) << "*" << endl;
+    out << "* Mode: " << setw(39) << ObjectNames::getStateName(this->getStatus()) << endl;
+    out << setfill('*') << setw(60) << "" << endl;
+    return out.str();
 }
 
 void Pinky::animate()

@@ -151,6 +151,21 @@ static char textureNames[ETextureLast][60] = {
 "Arrow right",
 };
 
+static char objectNames[NOT_SET_DIR][20] =
+{
+    "Up",
+    "Down",
+    "Right",
+    "Left"
+};
+
+static char stateName[3][20]
+{
+    "Dead",
+    "Normal",
+    "Active"
+};
+
 
 char* ObjectNames::getTextureImage(GTexture texture)
 {
@@ -160,6 +175,16 @@ char* ObjectNames::getTextureImage(GTexture texture)
 char* ObjectNames::getTextureName(GTexture texture)
 {
     return textureNames[texture];
+}
+
+char* ObjectNames::getDirectionName(int dir)
+{
+    return objectNames[dir];
+}
+
+char* ObjectNames::getStateName(int state)
+{
+    return stateName[state];
 }
 
 

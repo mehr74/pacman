@@ -31,6 +31,8 @@ protected:
     vector<int> findPossibleDirections(vector<MovingObject*> movingObjects);
     vector<int> findPossibleDirections() const;
 
+    int getStatus() const;
+
     int getDirection() const;
     void setDirection(int dir);
 
@@ -38,9 +40,14 @@ protected:
 
     void setTexture(GTexture texture);
 
+    bool isGhostAt(int x, int y) const;
+
+    GPoint *mapOrigin;
+    int mapMaxWidth;
+    int mapMaxHeight;
+
 private:
     vector<Brick*>getBricks() const;
-    bool isGhostAt(int x, int y) const;
     Brick* getBrickAt(int x, int y) const;
     void setToNextPosition(int dirX, int dirY);
     void moveSprite(int dirX, int dirY);
@@ -48,9 +55,6 @@ private:
     bool isDirectionAllowedForPlayer(int dir) const;
     vector<Brick*> mapBricks;
     vector<MovingObject*>ghosts;
-    GPoint *mapOrigin;
-    int mapMaxWidth;
-    int mapMaxHeight;
     int myNormalSpeed;
     int myActiveSpeed;
     int myDirection;

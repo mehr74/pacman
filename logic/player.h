@@ -21,6 +21,11 @@ public:
     void setBonuses(vector<Bonus*>bonuses);
     void setScorePoints(vector<ScorePoint*>scorePoints);
 
+    void setDefaultLifeSprites();
+    vector<Sprite*> getLifeSprites() const;
+
+    void deleteLifeSprite();
+
     bool playerMove(int direction, vector<Ghost*> ghosts);
 
     void updateScore();
@@ -31,6 +36,7 @@ private:
     vector<Ghost*> mapGhosts;
     vector<Bonus*> mapBonuses;
     vector<ScorePoint*> mapScorePoints;
+    vector<Sprite*> lifeSprites;
     int myLifeCount;
     int myScore;
 };

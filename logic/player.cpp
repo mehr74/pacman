@@ -6,9 +6,10 @@
 using namespace std;
 
 Player::Player(GPoint *pnt, GPoint *origin)
-    : MovingObject(pnt, EPacmanLeftOpen, PLAYER_NORMAL_SPEED, PLAYER_ACTIVE_SPEED, origin)
+    : MovingObject(pnt, EPacmanLeftOpen, PLAYER_NORMAL_SPEED, PLAYER_ACTIVE_SPEED, origin),
+      myScore(0),
+      myLifeCount(3)
 {
-
 }
 
 string Player::ToString() const
@@ -23,7 +24,11 @@ string Player::ToString() const
 string Player::DeepToString() const
 {
     ostringstream out;
-    out << std::left << setw(24) << *this;
+    out << setfill('*') << setw(60) << "" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << *this << "*" << endl;
+    out << "* Direction : " << setw(45) << ObjectNames::getDirectionName(this->getDirection()) << "*" << endl;
+    out << "* Mode: " << setw(39) << ObjectNames::getStateName(this->getStatus()) << endl;
+    out << setfill('*') << setw(60) << "" << endl;
     return out.str();
 }
 
@@ -55,8 +60,13 @@ bool Player::playerMove(int direction, vector<Ghost*> ghosts)
 
     this->setDirection(direction);
     this->Move();
+    if(isGhostAt(getPosition()->getX(), getPosition()->getY()) == true)
+    {
+        myLifeCount--;
+        deleteLifeSprite();
+        return false;
+    }
     this->updateScore();
-
 }
 
 int Player::getScore() const
@@ -100,4 +110,27 @@ int Player::findScorePoint(int x, int y)
         }
     }
     return -1;
+}
+
+void Player::setDefaultLifeSprites()
+{
+    for(int i = 0; i < 3; i++)
+    {
+        Sprite *tmp = Sprite::create(ObjectNames::getTextureImage(EPacmanRightClose));
+        tmp->setPosition(mapMaxWidth*15 + mapOrigin->getX() - i*20 - 15,
+                         mapMaxHeight*15 + mapOrigin->getY() + 10);
+        lifeSprites.push_back(tmp);
+    }
+}
+
+vector<Sprite*> Player::getLifeSprites() const
+{
+    return lifeSprites;
+}
+
+void Player::deleteLifeSprite()
+{
+    Sprite* sprt = lifeSprites.back();
+    sprt->removeFromParentAndCleanup(true);
+    lifeSprites.pop_back();
 }

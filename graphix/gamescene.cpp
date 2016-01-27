@@ -64,6 +64,11 @@ bool GameScene::init()
         this->addChild(scorePntSprt);
     }
 
+    for (auto lifeSprt : gameMap->getPlayer()->getLifeSprites())
+    {
+        this->addChild(lifeSprt);
+    }
+
     Player* player = gameMap->getPlayer();
     Sprite *playerSprt = player->getSprite();
     this->addChild(playerSprt);
@@ -75,8 +80,8 @@ bool GameScene::init()
     this->addChild(scoreBoardLabel);
 
 
-    scoreBoard = Label::createWithTTF(ttfConfig, "0", TextHAlignment::LEFT,0);
-    scoreBoard->setPosition(widthGap/2 + origin.x + 60,
+    scoreBoard = Label::createWithTTF(ttfConfig, "0", TextHAlignment::RIGHT,0);
+    scoreBoard->setPosition(widthGap/2 + origin.x + 80,
                              heightGap/2 + origin.y + 15*gameMap->getMaxHeight() + 10);
     this->addChild(scoreBoard);
 
@@ -96,11 +101,12 @@ void GameScene::update(float delta)
     {
         ghost->randomMove(gameMap->getGhosts());
     }
+    string score = std::to_string(gameMap->getPlayer()->getScore());
+    scoreBoard->setString(score);
 }
 
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
-    log("Key with keycode %d pressed", keyCode);
     bool isFailed = false;
     switch(keyCode)
     {
@@ -125,6 +131,6 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
             isFailed = gameMap->getPlayer()->playerMove(DOWN_DIR, gameMap->getGhosts());
             break;
     }
-
+    cout << gameMap->getPlayer()->DeepToString() << endl;
 }
 

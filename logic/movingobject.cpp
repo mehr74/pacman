@@ -278,3 +278,8 @@ void MovingObject::setTexture(GTexture texture)
     WorldObject::setTexture(texture);
     this->setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
 }
+
+int MovingObject::getStatus() const
+{
+    return myState;
+}

@@ -210,6 +210,7 @@ void GameMap::initializeMap(string fileName)
     player->setBricks(getBricks(), maxWidth, maxHeight);
     player->setBonuses(bonuses);
     player->setScorePoints(scorePoints);
+    player->setDefaultLifeSprites();
 
     cout << "* NEW " << setw(53) << *player  << "*" << endl;
     cout << "*" << setw(58) << "" << "*" << endl;

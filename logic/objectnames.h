@@ -105,6 +105,8 @@ class ObjectNames
 public:
     static char* getTextureImage(GTexture);
     static char* getTextureName(GTexture);
+    static char* getDirectionName(int dir);
+    static char* getStateName(int state);
 };
 
 #endif // OBJNAMES_H
