@@ -24,8 +24,10 @@ string Clyde::DeepToString() const
     ostringstream out;
     out << setfill('*') << setw(60) << "" << endl;
     out << setfill(' ') << "* " << std::left << setw(57) << *this << "*" << endl;
-    out << "* Direction : " << setw(45) << ObjectNames::getDirectionName(this->getDirection()) << "*" << endl;
-    out << "* Mode: " << setw(39) << ObjectNames::getStateName(this->getStatus()) << endl;
+    out << setw(15) << "* Prev pos: " << "(" << std::right << setw(2) << this->getPreviousPosition()->getX() << ", "
+        << std::right << setw(2) << this->getPreviousPosition()->getY() << ")" << setw(36) << " " << "*" << endl;
+    out << std::left << setw(15) << "* Direction : " << setw(44) << ObjectNames::getDirectionName(this->getDirection()) << "*" << endl;
+    out << setw(15) << "* Mode: " << setw(44) << ObjectNames::getStateName(this->getStatus()) << "*" << endl;
     out << setfill('*') << setw(60) << "" << endl;
     return out.str();
 }

@@ -17,10 +17,12 @@ public:
 
 private :
     void update(float delta);
+    void updateTimerForFruit(float delta);
     GameMap *gameMap;
     int widthGap;
     int heightGap;
     Label *scoreBoard;
+    int fruitTimer;
 };
 
 #endif // GAME_SCENE_H

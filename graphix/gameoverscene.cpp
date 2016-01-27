@@ -13,8 +13,7 @@ Scene* GameOverScene::createScene()
     return scene;
 }
 
-bool GameOverScene
-::init()
+bool GameOverScene::init()
 {
     if ( !Layer::init() )
     {

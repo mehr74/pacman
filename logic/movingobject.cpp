@@ -252,7 +252,7 @@ void MovingObject::setPosition(GPoint *pnt)
     WorldObject::setPosition(pnt);
 }
 
-GPoint* MovingObject::getPreviousPosition()
+GPoint* MovingObject::getPreviousPosition() const
 {
     return myPreviousPos;
 }

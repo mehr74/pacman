@@ -22,7 +22,7 @@ public:
     Sprite* getSprite() const;
 
     void setPosition(GPoint* pnt);
-    GPoint* getPreviousPosition();
+    GPoint* getPreviousPosition() const;
 
     void setBricks(vector<Brick*> bricks, int maxWidth, int maxHeight);
 

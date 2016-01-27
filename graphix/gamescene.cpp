@@ -33,6 +33,8 @@ bool GameScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    fruitTimer = 20;
+
     gameMap = new GameMap("lvl_02.txt", visibleSize.width, visibleSize.height);
     widthGap = visibleSize.width - gameMap->getMaxWidth()*15;
     heightGap = visibleSize.height - gameMap->getMaxHeight()*15;
@@ -85,6 +87,8 @@ bool GameScene::init()
                              heightGap/2 + origin.y + 15*gameMap->getMaxHeight() + 10);
     this->addChild(scoreBoard);
 
+    this->schedule(schedule_selector(GameScene::updateTimerForFruit), 1.0f);
+
 
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -100,6 +104,7 @@ void GameScene::update(float delta)
     for (auto ghost: gameMap->getGhosts())
     {
         ghost->randomMove(gameMap->getGhosts());
+        cout << ghost->DeepToString() << endl;
     }
     string score = std::to_string(gameMap->getPlayer()->getScore());
     scoreBoard->setString(score);
@@ -132,5 +137,16 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
             break;
     }
     cout << gameMap->getPlayer()->DeepToString() << endl;
+}
+
+void GameScene::updateTimerForFruit(float delta)
+{
+    fruitTimer--;
+    if(fruitTimer == 0)
+    {
+        gameMap->getPlayer()->addFruit();
+        this->addChild(gameMap->getPlayer()->getFruit()->getSprite());
+        fruitTimer = 20;
+    }
 }
 

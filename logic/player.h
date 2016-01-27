@@ -17,12 +17,16 @@ public:
     virtual string DeepToString() const;
 
     int getScore() const;
+    int getLifeCount() const;
 
     void setBonuses(vector<Bonus*>bonuses);
     void setScorePoints(vector<ScorePoint*>scorePoints);
 
     void setDefaultLifeSprites();
     vector<Sprite*> getLifeSprites() const;
+
+    void addFruit();
+    Fruit* getFruit() const;
 
     void deleteLifeSprite();
 
@@ -31,14 +35,16 @@ public:
     void updateScore();
 
 private:
-    int findScorePoint(int x, int y);
-    int findBonus(int x, int y);
+    int findScorePoint(int x, int y) const;
+    int findBonus(int x, int y) const;
+    int findFruit(int x, int y) const;
     vector<Ghost*> mapGhosts;
     vector<Bonus*> mapBonuses;
     vector<ScorePoint*> mapScorePoints;
     vector<Sprite*> lifeSprites;
     int myLifeCount;
     int myScore;
+    Fruit* myFruit;
 };
 
 
