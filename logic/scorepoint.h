@@ -12,7 +12,10 @@ public:
     virtual string DeepToString() const;
     virtual string ToString() const;
 
+    virtual int getScore() const;
+
 private:
+    static const int ourScore;
 
 };
 

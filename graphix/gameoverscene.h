@@ -13,7 +13,7 @@ public:
     CREATE_FUNC(GameOverScene)
 
 private :
-
+    void GoToMainMenuScene(float dt);
 };
 
 #endif // GAMEOVER_SCENE_H

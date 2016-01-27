@@ -14,6 +14,7 @@ public:
 
     virtual string ToString() const = 0;
     virtual string DeepToString() const = 0;
+
     void Move();
 
     int getSpeed();
@@ -26,6 +27,13 @@ public:
 
     void setBricks(vector<Brick*> bricks, int maxWidth, int maxHeight);
 
+    GPoint* getInitialPosition() const;
+
+    void changeState(int state);
+
+    int getDirection() const;
+    void setDirection(int dir);
+
 protected:
     bool isActionDone() const;
     vector<int> findPossibleDirections(vector<MovingObject*> movingObjects);
@@ -33,18 +41,17 @@ protected:
 
     int getStatus() const;
 
-    int getDirection() const;
-    void setDirection(int dir);
-
     int getInverseDirection() const;
 
     void setTexture(GTexture texture);
 
     bool isGhostAt(int x, int y) const;
+    bool isGhostAtForPlayer(int x, int y) const;
 
     GPoint *mapOrigin;
     int mapMaxWidth;
     int mapMaxHeight;
+    vector<MovingObject*>ghosts;
 
 private:
     vector<Brick*>getBricks() const;
@@ -54,13 +61,13 @@ private:
     bool isDirectionAllowedForGhosts(int dir) const;
     bool isDirectionAllowedForPlayer(int dir) const;
     vector<Brick*> mapBricks;
-    vector<MovingObject*>ghosts;
     int myNormalSpeed;
     int myActiveSpeed;
     int myDirection;
-    GState myState;
+    int myState;
     Sprite* mySprite;
     GPoint* myPreviousPos;
+    GPoint* myInitialPos;
     CCFiniteTimeAction* myAction;
 };
 

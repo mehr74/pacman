@@ -14,6 +14,7 @@ public:
 
 private:
     void GoToGameScene(cocos2d::Ref *sender);
+    void GoToAboutScene(cocos2d::Ref *sender);
     void test();
 };
 

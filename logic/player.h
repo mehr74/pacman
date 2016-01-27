@@ -13,6 +13,8 @@ class Player : public MovingObject
 public:
     Player(GPoint* pnt, GPoint* = new GPoint(0, 0));
 
+    bool isEmptyPoints() const;
+
     virtual string ToString() const;
     virtual string DeepToString() const;
 
@@ -33,8 +35,14 @@ public:
     bool playerMove(int direction, vector<Ghost*> ghosts);
 
     void updateScore();
+    void updateFruit();
+
+    void changeStateToActive();
+
+    void animate();
 
 private:
+    void setToInitial();
     int findScorePoint(int x, int y) const;
     int findBonus(int x, int y) const;
     int findFruit(int x, int y) const;

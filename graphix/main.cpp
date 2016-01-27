@@ -23,7 +23,7 @@ bool MainScene::init()
     }
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-      Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     this->schedule(schedule_selector(MainScene::GoToMainMenuScene), DISPLAY_TIME_SPLASH_SCENE);
 

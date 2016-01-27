@@ -14,3 +14,8 @@ string Bonus::ToString() const
 {
 
 }
+
+int Bonus::getScore() const
+{
+    return 0;
+}

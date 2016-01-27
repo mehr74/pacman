@@ -48,9 +48,15 @@ void Player::setScorePoints(vector<ScorePoint *> scorePoints)
 }
 
 
-bool Player::playerMove(int direction, vector<Ghost*> ghosts)
+bool Player::playerMove(int direction, vector<Ghost*> myghosts)
 {
-    mapGhosts = ghosts;
+    mapGhosts = myghosts;
+    vector<MovingObject*> movingObjects;
+    for(int i = 0; i < myghosts.size(); i++)
+    {
+        movingObjects.push_back(mapGhosts[i]);
+    }
+    ghosts = movingObjects;
     vector<int> possibleDirection = this->findPossibleDirections();
     bool isDirectionAllowed = false;
     for(int i = 0; i < possibleDirection.size(); i++)
@@ -64,13 +70,24 @@ bool Player::playerMove(int direction, vector<Ghost*> ghosts)
         return true;
 
     this->setDirection(direction);
+    this->animate();
     this->Move();
-    if(isGhostAt(getPosition()->getX(), getPosition()->getY()) == true)
+
+    if(isGhostAtForPlayer(getPosition()->getX(), getPosition()->getY()) == true)
     {
-        myLifeCount--;
-        deleteLifeSprite();
+        if(myLifeCount > 0)
+        {
+            myLifeCount--;
+            deleteLifeSprite();
+        }
         return false;
     }
+
+    if(findBonus(this->getPosition()->getX(), this->getPosition()->getY()) == true)
+    {
+        changeStateToActive();
+    }
+
     this->updateScore();
 }
 
@@ -97,6 +114,7 @@ void Player::updateScore()
         {
             myScore += 500;
             delete myFruit;
+            myFruit = NULL;
         }
     }
 }
@@ -156,6 +174,18 @@ vector<Sprite*> Player::getLifeSprites() const
     return lifeSprites;
 }
 
+void Player::updateFruit()
+{
+    if(myFruit == NULL)
+        return;
+    if(myFruit->decrementTimer() == false)
+    {
+        delete myFruit;
+        myFruit = NULL;
+    }
+
+}
+
 void Player::deleteLifeSprite()
 {
     Sprite* sprt = lifeSprites.back();
@@ -184,4 +214,46 @@ void Player::addFruit()
 Fruit* Player::getFruit() const
 {
     return myFruit;
+}
+
+void Player::changeStateToActive()
+{
+    this->changeState(ACTIVE_STATE);
+    for(int i = 0; i < mapGhosts.size(); i++)
+    {
+        mapGhosts[i]->changeState(ACTIVE_STATE);
+    }
+}
+
+void Player::setToInitial()
+{
+    this->setPosition(this->getInitialPosition());
+    for(int i = 0; i < mapGhosts.size(); i++)
+    {
+        mapGhosts[i]->setPosition(mapGhosts[i]->getInitialPosition());
+    }
+}
+
+void Player::animate()
+{
+    switch(this->getDirection())
+    {
+    case UP_DIR:
+        this->setTexture(EPacmanUpOpen);
+        break;
+    case DOWN_DIR:
+        this->setTexture(EPacmanDownOpen);
+        break;
+    case RIGHT_DIR:
+        this->setTexture(EPacmanRightOpen);
+        break;
+    case LEFT_DIR:
+        this->setTexture(EPacmanLeftOpen);
+        break;
+    }
+}
+
+bool Player::isEmptyPoints() const
+{
+    return mapScorePoints.empty();
 }

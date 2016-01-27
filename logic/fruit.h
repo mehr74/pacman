@@ -10,8 +10,12 @@ public:
     virtual string DeepToString() const;
     virtual string ToString() const;
 
-private:
+    virtual int getScore() const;
 
+    bool decrementTimer();
+
+private:
+    int myTimer;
 };
 
 #endif // FRUIT_H

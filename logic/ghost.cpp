@@ -33,6 +33,6 @@ void Ghost::randomMove(vector<Ghost*>ghosts)
 
     int direction = rand() % possibleDirection.size();
     this->setDirection(possibleDirection[direction]);
+    this->animate();
     this->Move();
-//    this->animate();
 }

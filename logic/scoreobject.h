@@ -17,6 +17,8 @@ public:
     void setSprite(Sprite *sprite);
     Sprite* getSprite() const;
 
+    virtual int getScore() const = 0;
+
 private:
     GPoint *mapOrigin;
     int mapMaxWidth;

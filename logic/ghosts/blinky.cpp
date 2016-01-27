@@ -34,6 +34,8 @@ string Blinky::DeepToString() const
 
 void Blinky::animate()
 {
+    if(this->getStatus() != NORMAL_STATE)
+        return;
     switch(this->getDirection())
     {
     case UP_DIR:

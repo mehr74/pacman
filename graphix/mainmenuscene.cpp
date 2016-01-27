@@ -52,7 +52,7 @@ bool MainMenuScene::init()
     auto *menuItem1 = MenuItemLabel::create( label1,
                                            CC_CALLBACK_1( MainMenuScene::GoToGameScene, this ));
     auto *menuItem2 = MenuItemLabel::create( label2,
-                                           CC_CALLBACK_1( MainMenuScene::GoToGameScene, this ));
+                                           CC_CALLBACK_1( MainMenuScene::GoToAboutScene, this ));
     auto *menuItem3 = MenuItemLabel::create( label3,
                                            CC_CALLBACK_1( MainMenuScene::GoToGameScene, this ));
 
@@ -75,6 +75,10 @@ void MainMenuScene::GoToGameScene(cocos2d::Ref *sender)
 {
     auto scene = GameScene::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create( TRANSITION_TIME, scene));
-
 }
 
+void MainMenuScene::GoToAboutScene(cocos2d::Ref *sender)
+{
+    auto scene = GameScene::createScene();
+    Director::getInstance()->replaceScene(TransitionFade::create( TRANSITION_TIME, scene));
+}

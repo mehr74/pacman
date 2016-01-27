@@ -18,6 +18,8 @@ public:
 private :
     void update(float delta);
     void updateTimerForFruit(float delta);
+    void GoToWinnerScene();
+    void GoToGameOverScene();
     GameMap *gameMap;
     int widthGap;
     int heightGap;

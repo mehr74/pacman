@@ -24,7 +24,8 @@ MovingObject::MovingObject(GPoint *pnt, GTexture texture, double normalSpeed, do
       myActiveSpeed(activeSpeed),
       mapOrigin(origin),
       myState(NORMAL_STATE),
-      myDirection(NOT_SET_DIR)
+      myDirection(NOT_SET_DIR),
+      myInitialPos(pnt)
 {
     setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
     myPreviousPos = this->getPosition();
@@ -246,6 +247,25 @@ bool MovingObject::isGhostAt(int x, int y) const
     return false;
 }
 
+bool MovingObject::isGhostAtForPlayer(int x, int y) const
+{
+    for(int i = 0; i < ghosts.size(); i++)
+    {
+        if(ghosts[i]->getPosition()->getX() == x &&
+           ghosts[i]->getPosition()->getY() == y)
+        {
+            return true;
+        }
+        if(ghosts[i]->getPreviousPosition()->getX() == x &&
+           ghosts[i]->getPreviousPosition()->getY() == y &&
+           ghosts[i] != this)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void MovingObject::setPosition(GPoint *pnt)
 {
     myPreviousPos = this->getPosition();
@@ -276,10 +296,24 @@ int MovingObject::getInverseDirection() const
 void MovingObject::setTexture(GTexture texture)
 {
     WorldObject::setTexture(texture);
+    Node* myParent = this->getSprite()->getParent();
+    this->getSprite()->removeFromParentAndCleanup(true);
     this->setSprite(Sprite::create(ObjectNames::getTextureImage(texture)));
+    myParent->addChild(this->getSprite());
 }
 
 int MovingObject::getStatus() const
 {
     return myState;
+}
+
+void MovingObject::changeState(int state)
+{
+    myState = state;
+
+}
+
+GPoint* MovingObject::getInitialPosition() const
+{
+    return myInitialPos;
 }

@@ -6,6 +6,8 @@
 #include "logic/ghost.h"
 #include "logic/player.h"
 #include "logic/bonus.h"
+#include "graphix/gameoverscene.h"
+#include "graphix/winnerscene.h"
 #include "definitions.h"
 
 using namespace std;
@@ -108,6 +110,13 @@ void GameScene::update(float delta)
     }
     string score = std::to_string(gameMap->getPlayer()->getScore());
     scoreBoard->setString(score);
+
+    gameMap->getPlayer()->playerMove(gameMap->getPlayer()->getDirection(), gameMap->getGhosts());
+
+    if(gameMap->getPlayer()->isEmptyPoints() == true)
+        GoToWinnerScene();
+    if(gameMap->getPlayer()->getLifeCount() == 0)
+        GoToGameOverScene();
 }
 
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
@@ -142,11 +151,28 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 void GameScene::updateTimerForFruit(float delta)
 {
     fruitTimer--;
+    gameMap->getPlayer()->updateFruit();
     if(fruitTimer == 0)
     {
         gameMap->getPlayer()->addFruit();
         this->addChild(gameMap->getPlayer()->getFruit()->getSprite());
         fruitTimer = 20;
     }
+}
+
+void GameScene::GoToGameOverScene()
+{
+    auto scene = GameOverScene::createScene();
+
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+
+}
+
+void GameScene::GoToWinnerScene()
+{
+    auto scene = WinnerScene::createScene();
+
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+
 }
 
