@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "logic/objectnames.h"
 #include "gpoint.h"
+#include "logic/scorepoint.h"
 using namespace std;
 
 class Brick;
@@ -13,6 +14,8 @@ class Inky;
 class Pinky;
 class Blinky;
 class Clyde;
+class Fruit;
+class Bonus;
 class GameMap
 {
     public:
@@ -21,6 +24,8 @@ class GameMap
 
         vector<Brick*> getBricks() const;
         vector<Ghost*> getGhosts() const;
+        vector<ScorePoint*> getScorePoints() const;
+        vector<Bonus*>getBonuses() const;
         Player* getPlayer() const;
         int getMaxWidth() const;
         int getMaxHeight() const;
@@ -37,6 +42,8 @@ class GameMap
         vector<Brick*> bricks;
         vector<Ghost*> ghosts;
         vector<GGhost> ghostTypes;
+        vector<Bonus*> bonuses;
+        vector<ScorePoint*> scorePoints;
         Player* player;
         int maxWidth;
         int maxHeight;

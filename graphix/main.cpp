@@ -41,8 +41,6 @@ bool MainScene::init()
                            2*visibleSize.height / 5 + origin.y);
     this->addChild(nameLabel);
 
-
-
     return true;
 }
 

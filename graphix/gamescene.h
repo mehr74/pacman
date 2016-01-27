@@ -20,6 +20,7 @@ private :
     GameMap *gameMap;
     int widthGap;
     int heightGap;
+    Label *scoreBoard;
 };
 
 #endif // GAME_SCENE_H

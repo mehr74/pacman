@@ -9,7 +9,7 @@
 #include "logic/ghosts/clyde.h"
 #include "logic/ghosts/inky.h"
 #include "logic/ghosts/pinky.h"
-
+#include "logic/bonus.h"
 USING_NS_CC;
 using namespace std;
 
@@ -28,6 +28,16 @@ vector<Brick*> GameMap::getBricks() const
 vector<Ghost*> GameMap::getGhosts() const
 {
     return ghosts;
+}
+
+vector<ScorePoint*> GameMap::getScorePoints() const
+{
+    return scorePoints;
+}
+
+vector<Bonus*> GameMap::getBonuses() const
+{
+    return bonuses;
 }
 
 Player* GameMap::getPlayer() const
@@ -149,7 +159,8 @@ void GameMap::initializeMap(string fileName)
                 bricks.push_back(new Brick(new GPoint(x, y), EArc2Down));
                 break;
             case 16:
-                bricks.push_back(new Brick(new GPoint(x, y), EBonus));
+                bricks.push_back(new Brick(new GPoint(x, y), ENone));
+                bonuses.push_back(new Bonus(new GPoint(x, y), mapOrigin));
                 break;
             case 85:
                 bricks.push_back(new Brick(new GPoint(x, y), ENone));
@@ -176,7 +187,7 @@ void GameMap::initializeMap(string fileName)
                 break;
             default:
                 bricks.push_back(new Brick(new GPoint(x, y), EBackground));
-
+                scorePoints.push_back(new ScorePoint(new GPoint(x, y), mapOrigin));
                 break;
         }
 
@@ -195,7 +206,11 @@ void GameMap::initializeMap(string fileName)
         ghosts[i]->setBricks(getBricks(), maxWidth, maxHeight);
         cout << "* NEW " << setw(53) << *ghosts[i] << "*" << endl;
     }
+
     player->setBricks(getBricks(), maxWidth, maxHeight);
+    player->setBonuses(bonuses);
+    player->setScorePoints(scorePoints);
+
     cout << "* NEW " << setw(53) << *player  << "*" << endl;
     cout << "*" << setw(58) << "" << "*" << endl;
     cout << setfill('*') <<setw(60) << "" << endl;

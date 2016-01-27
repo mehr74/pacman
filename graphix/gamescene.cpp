@@ -5,6 +5,7 @@
 #include "logic/brick.h"
 #include "logic/ghost.h"
 #include "logic/player.h"
+#include "logic/bonus.h"
 #include "definitions.h"
 
 using namespace std;
@@ -30,7 +31,7 @@ bool GameScene::init()
     }
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     gameMap = new GameMap("lvl_02.txt", visibleSize.width, visibleSize.height);
     widthGap = visibleSize.width - gameMap->getMaxWidth()*15;
@@ -48,12 +49,37 @@ bool GameScene::init()
     for (auto ghost: gameMap->getGhosts())
     {
         Sprite * ghostSprt = ghost->getSprite();
-        this->addChild(ghostSprt);
+        this->addChild(ghostSprt,2);
+    }
+
+    for (auto bonus: gameMap->getBonuses())
+    {
+        Sprite * bonusSprt = bonus->getSprite();
+        this->addChild(bonusSprt);
+    }
+
+    for (auto scorePoint : gameMap->getScorePoints())
+    {
+        Sprite * scorePntSprt = scorePoint->getSprite();
+        this->addChild(scorePntSprt);
     }
 
     Player* player = gameMap->getPlayer();
     Sprite *playerSprt = player->getSprite();
     this->addChild(playerSprt);
+
+    TTFConfig ttfConfig("fonts/Marker Felt.ttf", 24);
+    auto scoreBoardLabel = Label::createWithTTF(ttfConfig, "SCORE: ", TextHAlignment::LEFT,0);
+    scoreBoardLabel->setPosition(widthGap/2 + origin.x + 20,
+                             heightGap/2 + origin.y + 15*gameMap->getMaxHeight() + 10);
+    this->addChild(scoreBoardLabel);
+
+
+    scoreBoard = Label::createWithTTF(ttfConfig, "0", TextHAlignment::LEFT,0);
+    scoreBoard->setPosition(widthGap/2 + origin.x + 60,
+                             heightGap/2 + origin.y + 15*gameMap->getMaxHeight() + 10);
+    this->addChild(scoreBoard);
+
 
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -75,27 +101,28 @@ void GameScene::update(float delta)
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d pressed", keyCode);
+    bool isFailed = false;
     switch(keyCode)
     {
         case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
         case EventKeyboard::KeyCode::KEY_A:
             cout << "keyboard left arrow" << endl;
-            gameMap->getPlayer()->playerMove(LEFT_DIR);
+            isFailed = gameMap->getPlayer()->playerMove(LEFT_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
         case EventKeyboard::KeyCode::KEY_D:
-            cout << "keyboard right arrow" << endl;
-            gameMap->getPlayer()->playerMove(RIGHT_DIR);
+            isFailed = cout << "keyboard right arrow" << endl;
+            gameMap->getPlayer()->playerMove(RIGHT_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_UP_ARROW:
         case EventKeyboard::KeyCode::KEY_W:
             cout << "keyboard up arrow" << endl;
-            gameMap->getPlayer()->playerMove(UP_DIR);
+            isFailed = gameMap->getPlayer()->playerMove(UP_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
         case EventKeyboard::KeyCode::KEY_S:
             cout << "keyboard down arrow" << endl;
-            gameMap->getPlayer()->playerMove(DOWN_DIR);
+            isFailed = gameMap->getPlayer()->playerMove(DOWN_DIR, gameMap->getGhosts());
             break;
     }
 
