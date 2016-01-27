@@ -15,6 +15,7 @@ public:
 private:
     void GoToGameScene(cocos2d::Ref *sender);
     void GoToAboutScene(cocos2d::Ref *sender);
+    void menuCloseCallback(Ref* pSender);
     void test();
 };
 

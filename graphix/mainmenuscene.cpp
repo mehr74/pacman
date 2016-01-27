@@ -1,5 +1,6 @@
 #include "graphix/mainmenuscene.h"
 #include "gamescene.h"
+#include "graphix/aboutscene.h"
 #include "main.h"
 #include "definitions.h"
 USING_NS_CC;
@@ -54,7 +55,7 @@ bool MainMenuScene::init()
     auto *menuItem2 = MenuItemLabel::create( label2,
                                            CC_CALLBACK_1( MainMenuScene::GoToAboutScene, this ));
     auto *menuItem3 = MenuItemLabel::create( label3,
-                                           CC_CALLBACK_1( MainMenuScene::GoToGameScene, this ));
+                                           CC_CALLBACK_1( MainMenuScene::menuCloseCallback, this ));
 
     menuItem3->setPosition(Point(visibleSize.width / 2 + origin.x,
                                  3*visibleSize.height / 8 + origin.y));
@@ -79,6 +80,17 @@ void MainMenuScene::GoToGameScene(cocos2d::Ref *sender)
 
 void MainMenuScene::GoToAboutScene(cocos2d::Ref *sender)
 {
-    auto scene = GameScene::createScene();
+    auto scene = AboutScene::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create( TRANSITION_TIME, scene));
 }
+
+
+void MainMenuScene::menuCloseCallback(Ref* pSender)
+{
+    Director::getInstance()->end();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+}
+
