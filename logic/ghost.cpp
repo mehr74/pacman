@@ -5,7 +5,8 @@
 
 
 Ghost::Ghost(GPoint *pnt, GTexture texture, GPoint *origin)
-    : MovingObject(pnt,texture, GHOST_NORMAL_SPEED, GHOST_ACTIVE_SPEED, origin)
+    : MovingObject(pnt,texture, GHOST_NORMAL_SPEED, GHOST_ACTIVE_SPEED, origin),
+      deadTimer(0)
 {
     srand(time(NULL));
 }
@@ -35,4 +36,22 @@ void Ghost::randomMove(vector<Ghost*>ghosts)
     this->setDirection(possibleDirection[direction]);
     this->animate();
     this->Move();
+}
+
+void Ghost::decrementDeadTime()
+{
+    if(deadTimer > 0)
+    {
+        deadTimer--;
+    }
+    else
+    {
+        this->changeState(NORMAL_STATE);
+        this->animate();
+    }
+}
+
+void Ghost::setDeadTime(int time)
+{
+    deadTimer = time;
 }

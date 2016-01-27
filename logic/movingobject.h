@@ -34,19 +34,19 @@ public:
     int getDirection() const;
     void setDirection(int dir);
 
+    void setTexture(GTexture texture);
+
+    int getStatus() const;
+
 protected:
     bool isActionDone() const;
     vector<int> findPossibleDirections(vector<MovingObject*> movingObjects);
     vector<int> findPossibleDirections() const;
 
-    int getStatus() const;
-
     int getInverseDirection() const;
 
-    void setTexture(GTexture texture);
-
     bool isGhostAt(int x, int y) const;
-    bool isGhostAtForPlayer(int x, int y) const;
+    int isGhostAtForPlayer(int x, int y) const;
 
     GPoint *mapOrigin;
     int mapMaxWidth;

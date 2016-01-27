@@ -1,5 +1,5 @@
 #include "graphix/mainmenuscene.h"
-#include "gamescene.h"
+#include "graphix/mapselectorscene.h"
 #include "graphix/aboutscene.h"
 #include "main.h"
 #include "definitions.h"
@@ -74,7 +74,7 @@ bool MainMenuScene::init()
 
 void MainMenuScene::GoToGameScene(cocos2d::Ref *sender)
 {
-    auto scene = GameScene::createScene();
+    auto scene = MapSelectorScene::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create( TRANSITION_TIME, scene));
 }
 

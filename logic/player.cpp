@@ -9,7 +9,9 @@ Player::Player(GPoint *pnt, GPoint *origin)
     : MovingObject(pnt, EPacmanLeftOpen, PLAYER_NORMAL_SPEED, PLAYER_ACTIVE_SPEED, origin),
       myScore(0),
       myLifeCount(3),
-      myFruit(NULL)
+      myFruit(NULL),
+      activeModeTimer(0),
+      numberOfGhostEaten(0)
 {
 }
 
@@ -48,8 +50,10 @@ void Player::setScorePoints(vector<ScorePoint *> scorePoints)
 }
 
 
-bool Player::playerMove(int direction, vector<Ghost*> myghosts)
+bool Player::playerMove(int direction, vector<Ghost*> myghosts, bool arg)
 {
+    if(arg && direction == this->getDirection())
+        return true;
     mapGhosts = myghosts;
     vector<MovingObject*> movingObjects;
     for(int i = 0; i < myghosts.size(); i++)
@@ -73,7 +77,8 @@ bool Player::playerMove(int direction, vector<Ghost*> myghosts)
     this->animate();
     this->Move();
 
-    if(isGhostAtForPlayer(getPosition()->getX(), getPosition()->getY()) == true)
+    if(this->getStatus() != ACTIVE_STATE &&
+       isGhostAtForPlayer(getPosition()->getX(), getPosition()->getY()) != -1)
     {
         if(myLifeCount > 0)
         {
@@ -83,9 +88,13 @@ bool Player::playerMove(int direction, vector<Ghost*> myghosts)
         return false;
     }
 
-    if(findBonus(this->getPosition()->getX(), this->getPosition()->getY()) == true)
+    int target = findBonus(this->getPosition()->getX(), this->getPosition()->getY());
+    if(target != -1)
     {
         changeStateToActive();
+        Bonus* tmp = mapBonuses[target];
+        mapBonuses.erase(mapBonuses.begin() + target);
+        delete tmp;
     }
 
     this->updateScore();
@@ -115,6 +124,21 @@ void Player::updateScore()
             myScore += 500;
             delete myFruit;
             myFruit = NULL;
+        }
+    }
+
+    if(this->getStatus() == ACTIVE_STATE)
+    {
+        target = isGhostAtForPlayer(this->getPosition()->getX(), this->getPosition()->getY());
+        if(target != -1)
+        {
+            if(mapGhosts[target]->getStatus() == DEAD_STATE)
+                return;
+            myScore += (numberOfGhostEaten + 1) * 200;
+            numberOfGhostEaten++;
+            mapGhosts[target]->changeState(DEAD_STATE);
+            mapGhosts[target]->setDeadTime(5);
+            mapGhosts[target]->setTexture(EOrbDown);
         }
     }
 }
@@ -218,10 +242,13 @@ Fruit* Player::getFruit() const
 
 void Player::changeStateToActive()
 {
+    numberOfGhostEaten = 0;
+    activeModeTimer += 8;
     this->changeState(ACTIVE_STATE);
     for(int i = 0; i < mapGhosts.size(); i++)
     {
         mapGhosts[i]->changeState(ACTIVE_STATE);
+        mapGhosts[i]->setTexture(EspiritDefence);
     }
 }
 
@@ -256,4 +283,37 @@ void Player::animate()
 bool Player::isEmptyPoints() const
 {
     return mapScorePoints.empty();
+}
+
+void Player::updateActiveMode()
+{
+    for(int i = 0; i < mapGhosts.size(); i++)
+    {
+        if(mapGhosts[i]->getStatus() == DEAD_STATE)
+        {
+            mapGhosts[i]->decrementDeadTime();
+        }
+    }
+    if(activeModeTimer > 0)
+    {
+        activeModeTimer--;
+        if(activeModeTimer == 3)
+        {
+            for(int i = 0; i < mapGhosts.size(); i++)
+            {
+                mapGhosts[i]->setTexture(ESpiritDefenceWhite);
+            }
+        }
+        else if(activeModeTimer == 0)
+        {
+            this->changeState(NORMAL_STATE);
+            for(int i = 0; i < mapGhosts.size(); i++)
+            {
+                if(mapGhosts[i]->getStatus() != DEAD_STATE)
+                {
+                    mapGhosts[i]->changeState(NORMAL_STATE);
+                }
+            }
+        }
+    }
 }

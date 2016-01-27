@@ -32,10 +32,11 @@ public:
 
     void deleteLifeSprite();
 
-    bool playerMove(int direction, vector<Ghost*> ghosts);
+    bool playerMove(int direction, vector<Ghost*> ghosts, bool arg = true);
 
     void updateScore();
     void updateFruit();
+    void updateActiveMode();
 
     void changeStateToActive();
 
@@ -53,6 +54,8 @@ private:
     int myLifeCount;
     int myScore;
     Fruit* myFruit;
+    int numberOfGhostEaten;
+    int activeModeTimer;
 };
 
 

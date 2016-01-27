@@ -15,6 +15,8 @@ public:
     
     CREATE_FUNC(GameScene)
 
+    static string levelFile;
+
 private :
     void update(float delta);
     void updateTimerForFruit(float delta);

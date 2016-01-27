@@ -247,23 +247,23 @@ bool MovingObject::isGhostAt(int x, int y) const
     return false;
 }
 
-bool MovingObject::isGhostAtForPlayer(int x, int y) const
+int MovingObject::isGhostAtForPlayer(int x, int y) const
 {
     for(int i = 0; i < ghosts.size(); i++)
     {
         if(ghosts[i]->getPosition()->getX() == x &&
            ghosts[i]->getPosition()->getY() == y)
         {
-            return true;
+            return i;
         }
         if(ghosts[i]->getPreviousPosition()->getX() == x &&
            ghosts[i]->getPreviousPosition()->getY() == y &&
            ghosts[i] != this)
         {
-            return true;
+            return i;
         }
     }
-    return false;
+    return -1;
 }
 
 void MovingObject::setPosition(GPoint *pnt)
@@ -310,7 +310,6 @@ int MovingObject::getStatus() const
 void MovingObject::changeState(int state)
 {
     myState = state;
-
 }
 
 GPoint* MovingObject::getInitialPosition() const

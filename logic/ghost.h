@@ -14,10 +14,14 @@ public:
 
     void randomMove(vector<Ghost*> ghosts);
 
+    void decrementDeadTime();
+    void setDeadTime(int time);
+
 protected:
     virtual void animate() = 0;
 
 private:
+    int deadTimer;
 
 
 };

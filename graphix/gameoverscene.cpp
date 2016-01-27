@@ -29,7 +29,7 @@ bool GameOverScene::init()
 
     // programmer : Mehrshad Lotfi
     TTFConfig ttfConfig2("fonts/emulogic.ttf", 28);
-    auto nameLabel = Label::createWithTTF(ttfConfig2, "GAME OVER", TextHAlignment::CENTER,100);
+    auto nameLabel = Label::createWithTTF(ttfConfig2, "GAME OVER", TextHAlignment::CENTER,500);
     nameLabel->setPosition(visibleSize.width / 2 + origin.x,
                            visibleSize.height /2 + origin.y);
     this->addChild(nameLabel);

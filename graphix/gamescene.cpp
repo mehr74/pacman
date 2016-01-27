@@ -13,6 +13,8 @@
 using namespace std;
 USING_NS_CC;
 
+string GameScene::levelFile = string("");
+
 Scene* GameScene::createScene()
 {
     auto scene = Scene::create();
@@ -37,7 +39,7 @@ bool GameScene::init()
 
     fruitTimer = 20;
 
-    gameMap = new GameMap("lvl_02.txt", visibleSize.width, visibleSize.height);
+    gameMap = new GameMap(levelFile, visibleSize.width, visibleSize.height);
     widthGap = visibleSize.width - gameMap->getMaxWidth()*15;
     heightGap = visibleSize.height - gameMap->getMaxHeight()*15;
 
@@ -111,7 +113,7 @@ void GameScene::update(float delta)
     string score = std::to_string(gameMap->getPlayer()->getScore());
     scoreBoard->setString(score);
 
-    gameMap->getPlayer()->playerMove(gameMap->getPlayer()->getDirection(), gameMap->getGhosts());
+    gameMap->getPlayer()->playerMove(gameMap->getPlayer()->getDirection(), gameMap->getGhosts(), false);
 
     if(gameMap->getPlayer()->isEmptyPoints() == true)
         GoToWinnerScene();
@@ -158,21 +160,17 @@ void GameScene::updateTimerForFruit(float delta)
         this->addChild(gameMap->getPlayer()->getFruit()->getSprite());
         fruitTimer = 20;
     }
+    gameMap->getPlayer()->updateActiveMode();
 }
 
 void GameScene::GoToGameOverScene()
 {
     auto scene = GameOverScene::createScene();
-
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
-
 }
 
 void GameScene::GoToWinnerScene()
 {
     auto scene = WinnerScene::createScene();
-
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
-
 }
-
