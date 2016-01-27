@@ -113,7 +113,9 @@ void GameScene::update(float delta)
     string score = std::to_string(gameMap->getPlayer()->getScore());
     scoreBoard->setString(score);
 
+
     gameMap->getPlayer()->playerMove(gameMap->getPlayer()->getDirection(), gameMap->getGhosts(), false);
+
 
     if(gameMap->getPlayer()->isEmptyPoints() == true)
         GoToWinnerScene();
@@ -129,22 +131,22 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
         case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
         case EventKeyboard::KeyCode::KEY_A:
             cout << "keyboard left arrow" << endl;
-            isFailed = gameMap->getPlayer()->playerMove(LEFT_DIR, gameMap->getGhosts());
+            gameMap->getPlayer()->playerMove(LEFT_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
         case EventKeyboard::KeyCode::KEY_D:
-            isFailed = cout << "keyboard right arrow" << endl;
+            cout << "keyboard right arrow" << endl;
             gameMap->getPlayer()->playerMove(RIGHT_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_UP_ARROW:
         case EventKeyboard::KeyCode::KEY_W:
             cout << "keyboard up arrow" << endl;
-            isFailed = gameMap->getPlayer()->playerMove(UP_DIR, gameMap->getGhosts());
+            gameMap->getPlayer()->playerMove(UP_DIR, gameMap->getGhosts());
             break;
         case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
         case EventKeyboard::KeyCode::KEY_S:
             cout << "keyboard down arrow" << endl;
-            isFailed = gameMap->getPlayer()->playerMove(DOWN_DIR, gameMap->getGhosts());
+            gameMap->getPlayer()->playerMove(DOWN_DIR, gameMap->getGhosts());
             break;
     }
     cout << gameMap->getPlayer()->DeepToString() << endl;
@@ -157,6 +159,7 @@ void GameScene::updateTimerForFruit(float delta)
     if(fruitTimer == 0)
     {
         gameMap->getPlayer()->addFruit();
+        cout << gameMap->getPlayer()->getFruit()->DeepToString() << endl;
         this->addChild(gameMap->getPlayer()->getFruit()->getSprite());
         fruitTimer = 20;
     }

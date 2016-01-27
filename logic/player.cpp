@@ -54,6 +54,7 @@ bool Player::playerMove(int direction, vector<Ghost*> myghosts, bool arg)
 {
     if(arg && direction == this->getDirection())
         return true;
+
     mapGhosts = myghosts;
     vector<MovingObject*> movingObjects;
     for(int i = 0; i < myghosts.size(); i++)
@@ -93,6 +94,7 @@ bool Player::playerMove(int direction, vector<Ghost*> myghosts, bool arg)
     {
         changeStateToActive();
         Bonus* tmp = mapBonuses[target];
+        cout << tmp->DeepToString() << endl;
         mapBonuses.erase(mapBonuses.begin() + target);
         delete tmp;
     }
@@ -112,6 +114,7 @@ void Player::updateScore()
     {
         myScore += 10;
         ScorePoint* tmp = mapScorePoints[target];
+        cout << tmp->DeepToString() << endl;
         mapScorePoints.erase(mapScorePoints.begin() + target);
         delete tmp;
     }
@@ -121,6 +124,7 @@ void Player::updateScore()
         target = findFruit(getPosition()->getX(), getPosition()->getY());
         if(target != -1)
         {
+            cout << "EAT" << myFruit->DeepToString() << endl;
             myScore += 500;
             delete myFruit;
             myFruit = NULL;
@@ -136,7 +140,10 @@ void Player::updateScore()
                 return;
             myScore += (numberOfGhostEaten + 1) * 200;
             numberOfGhostEaten++;
+            cout << "EAT" << mapGhosts[target]->DeepToString() << endl;
             mapGhosts[target]->changeState(DEAD_STATE);
+            mapGhosts[target]->setPosition(new GPoint(mapGhosts[target]->getInitialPosition()->getX(),
+                                                      mapGhosts[target]->getInitialPosition()->getY()));
             mapGhosts[target]->setDeadTime(5);
             mapGhosts[target]->setTexture(EOrbDown);
         }
@@ -225,7 +232,6 @@ int Player::getLifeCount() const
 
 void Player::addFruit()
 {
-
     if(mapScorePoints.empty())
         return;
     int index = rand() % mapScorePoints.size();
