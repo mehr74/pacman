@@ -1,4 +1,4 @@
-﻿## The Logic Simulator
+﻿## The Pacman
 Pacman is a practical part of a course assignment on learning "[advanced programming course](http://ce.sharif.edu/courses/94-95/1/ce244-2)", held in Sharif university of technology in 2015-2016.
 
 
@@ -19,10 +19,11 @@ We use the [Github issue tracker](https://github.com/mehr74/pacman/issues) to tr
 
 ### Demos
 
-![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo1.jpg)
-![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo2.jpg)
-![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo3.jpg)
-![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo4.jpg)
+![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo1.png)
+![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo2.png)
+![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo3.png)
+![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo4.png)
+![alt tag](https://raw.github.com/mehr74/pacman/master/Resources/demo5.png)
 
 ### Copyright
 © 2015-2016 Mehrshad Lotfi - AmirHossein Mohaddesi All Rights Reserved
