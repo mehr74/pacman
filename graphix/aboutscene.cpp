@@ -39,7 +39,7 @@ bool AboutScene::init()
     auto nameLabel = Label::createWithTTF(ttfConfig2,
                "Pacman is a practical part of a course assignment"
                " on learning advanced programming course held in "
-               "Sharif university of technology in 2015-2016\n\nMehrshad Lotfi", TextHAlignment::CENTER,800);
+               "Sharif university of technology in 2015-2016\n\nMehrshad Lotfi\nAmirHossein Mohaddesi", TextHAlignment::CENTER,800);
     nameLabel->setPosition(visibleSize.width / 2 + origin.x,
                            2*visibleSize.height / 5 + origin.y);
     this->addChild(nameLabel);

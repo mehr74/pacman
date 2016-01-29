@@ -256,12 +256,6 @@ int MovingObject::isGhostAtForPlayer(int x, int y) const
         {
             return i;
         }
-        if(ghosts[i]->getPreviousPosition()->getX() == x &&
-           ghosts[i]->getPreviousPosition()->getY() == y &&
-           ghosts[i] != this)
-        {
-            return i;
-        }
     }
     return -1;
 }

@@ -307,7 +307,10 @@ void Player::updateActiveMode()
         {
             for(int i = 0; i < mapGhosts.size(); i++)
             {
-                mapGhosts[i]->setTexture(ESpiritDefenceWhite);
+                if(mapGhosts[i]->getStatus() != DEAD_STATE)
+                {
+                    mapGhosts[i]->setTexture(ESpiritDefenceWhite);
+                }
             }
         }
         else if(activeModeTimer == 0)

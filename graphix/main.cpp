@@ -36,7 +36,7 @@ bool MainScene::init()
 
     // programmer : Mehrshad Lotfi
     TTFConfig ttfConfig2("fonts/emulogic.ttf", 28);
-    auto nameLabel = Label::createWithTTF(ttfConfig2, "Mehrshad Lotfi", TextHAlignment::CENTER,400);
+    auto nameLabel = Label::createWithTTF(ttfConfig2, "Mehrshad Lotfi\nAmirHossein Mohaddesi", TextHAlignment::CENTER,700);
     nameLabel->setPosition(visibleSize.width / 2 + origin.x,
                            2*visibleSize.height / 5 + origin.y);
     this->addChild(nameLabel);
